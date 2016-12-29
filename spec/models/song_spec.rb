@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 describe Song, type: :model do
+  let(:song_group) { SongGroup.create!(name: 'name') }
+
   describe 'Validations' do
     subject { Song.new(attrs) }
     let(:attrs) { valid_attrs }
-    let(:valid_attrs) { {name: 'name', artist: 'artist', url: 'url', album_art: 'album_art'} }
+    let(:valid_attrs) { {name: 'name', artist: 'artist', url: 'url', album_art: 'album_art', song_group: song_group} }
 
     it 'allows creation of valid records' do
       expect(subject).to be_valid
@@ -12,6 +14,14 @@ describe Song, type: :model do
 
     describe 'without a name' do
       let(:attrs) { valid_attrs.merge(name: '') }
+
+      it 'prevents creation of the record' do
+        expect(subject).to_not be_valid
+      end
+    end
+
+    describe 'without a song group' do
+      let(:attrs) { valid_attrs.merge(song_group: nil) }
 
       it 'prevents creation of the record' do
         expect(subject).to_not be_valid
@@ -44,7 +54,7 @@ describe Song, type: :model do
   end
 
   describe '#as_json' do
-    subject { Song.create!(name: 'boogie woogie', artist: 'elbis', url: 'url', album_art: 'art') }
+    subject { Song.create!(name: 'boogie woogie', artist: 'elbis', url: 'url', album_art: 'art', song_group: song_group) }
 
     it 'returns a subset of the fields' do
       expect(subject.as_json).to eq({

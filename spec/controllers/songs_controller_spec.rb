@@ -5,15 +5,15 @@ describe SongsController, type: :controller do
   describe 'GET index' do
     subject { get :index }
 
-    let(:songs) {
+    let(:song_groups) {
       [
-          double(Song, as_json: {id: 123}),
-          double(Song, as_json: {id: 555}),
+          double(SongGroup, as_json: {id: 123}),
+          double(SongGroup, as_json: {id: 555}),
       ]
     }
 
     before do
-      allow(Song).to receive(:all).and_return(songs)
+      allow(SongGroup).to receive(:all).and_return(song_groups)
     end
 
     it 'returns a success response code' do

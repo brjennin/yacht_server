@@ -1,8 +1,8 @@
 class SongsController < ApplicationController
 
   def index
-    songs = Song.all
-    render json: songs
+    song_groups = SongGroup.all
+    render json: song_groups
   end
 
 end
